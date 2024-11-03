@@ -16,3 +16,6 @@
 - UserRepo extends JpaRepository, handling database interactions for Users entities.
 - The custom method findByUsername enables efficient fetching of user data by username, crucial for authentication workflows.
 - This separation of data access logic promotes a clean, maintainable structure and can be expanded to support additional queries if needed.
+### Password Security with BCryptPasswordEncoder:
+- Secure Hashing: BCryptPasswordEncoder encodes passwords with a high computational cost (strength 12), making brute-force attacks harder.
+- Consistent Use: Applied in both registration and authentication for secure, compatible password handling.
