@@ -1,7 +1,10 @@
 package com.TaskMate.TaskMate.controller;
 
 import com.TaskMate.TaskMate.model.Users;
+import com.TaskMate.TaskMate.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,20 +19,15 @@ import java.util.List;
 @RestController
 public class UsersController {
 
+    @Autowired
+    private UsersService usersService;
 
-    @GetMapping("/User")
-    public List<Users> getUsers(){
-     return null;
-    }
+    private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
 
-    @GetMapping("/Csrf-token")
-    public CsrfToken getCsrfToken(HttpServletRequest req){
-      return(CsrfToken) req.getAttribute("_csrf");
-    }
-
-    @PostMapping("/User")
-    public Users addUser(@RequestBody Users user){
-        return user;
+    @PostMapping("/register")
+    public Users register(@RequestBody Users user){
+        user.setPassword(encoder.encode(user.getPassword()));
+        return  usersService.register(user);
     }
 
 
