@@ -22,12 +22,17 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
 
     @PostMapping("/register")
-    public Users register(@RequestBody Users user){
-        user.setPassword(encoder.encode(user.getPassword()));
-        return  usersService.register(user);
+    public Users register(@RequestBody Users user) {
+        return usersService.register(user);
+
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody Users user) {
+
+        return usersService.verify(user);
     }
 
 
