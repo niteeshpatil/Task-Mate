@@ -1,4 +1,4 @@
-## Implementing authentication with credentials and CryptPassword
+## Implementing Authentication with Credentials and BCryptPasswordEncode
 ### Security Configuration and Custom Authentication:
 - The SecurityConfig class customizes Spring Security using @EnableWebSecurity.
 - CSRF protection is disabled with http.csrf(customizer -> customizer.disable()) to avoid CSRF checks in this configuration.
