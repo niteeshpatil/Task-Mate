@@ -1,3 +1,9 @@
+## Blocking
+### Blocking (Single Thread Waits for Completion)
+- @Transactional ensures atomicity, maintaining data integrity when creating entities like Task & Assignees or Reminder & Users
+- Synchronous repository calls block the thread until database operations complete, ensuring that data is consistently persisted before proceeding.
+- However, this can cause performance bottlenecks and limit scalability under high load due to blocking database interactions.
+
 ## Implementing Authentication with Credentials and BCryptPasswordEncode
 ### Security Configuration and Custom Authentication:
 - The SecurityConfig class customizes Spring Security using @EnableWebSecurity.
