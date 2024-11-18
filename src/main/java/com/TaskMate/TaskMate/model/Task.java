@@ -1,5 +1,6 @@
 package com.TaskMate.TaskMate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,9 +24,11 @@ public class Task {
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonIgnore
     private Set<Users> assignees = new HashSet<>(); // Users assigned to this task
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Reminder> reminders = new HashSet<>();
 
     // Constructors

@@ -1,7 +1,9 @@
 package com.TaskMate.TaskMate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Reminder {
@@ -16,14 +18,14 @@ public class Reminder {
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = false) // Ensures task is mandatory for reminder
+    @JsonIgnore
     private Task task; // Task associated with this reminder
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // Ensures user is mandatory for reminder
-    private Users user; // User receiving the reminder
+    @ManyToMany(mappedBy = "reminders")
+    @JsonIgnore
+    private Set<Users> users; // Users receiving the reminder
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -56,11 +58,11 @@ public class Reminder {
         this.task = task;
     }
 
-    public Users getUser() {
-        return user;
+    public Set<Users> getUsers() {
+        return users;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
+    public void setUsers(Set<Users> users) {
+        this.users = users;
     }
 }

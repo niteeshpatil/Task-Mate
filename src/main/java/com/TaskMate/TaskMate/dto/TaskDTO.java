@@ -1,16 +1,20 @@
 package com.TaskMate.TaskMate.dto;
 
-public class TaskRequest {
+import java.util.Set;
+
+public class TaskDTO {
 
     private String title;
     private String description;
-    private Long createdBy; // Assuming this refers to the user's ID
+    private Long createdBy;
+    private Set<Long> taskAssignees;  // List of User IDs assigned to this task
 
     // Constructor
-    public TaskRequest(String title, String description, Long createdBy) {
+    public TaskDTO(String title, String description, Long createdBy, Set<Long> taskAssignees) {
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
+        this.taskAssignees = taskAssignees;
     }
 
     // Getters and Setters
@@ -36,5 +40,13 @@ public class TaskRequest {
 
     public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Set<Long> getTaskAssignees() {
+        return taskAssignees;
+    }
+
+    public void setTaskAssignees(Set<Long> taskAssignees) {
+        this.taskAssignees = taskAssignees;
     }
 }
