@@ -1,18 +1,25 @@
 package com.TaskMate.TaskMate.service;
 
+import com.TaskMate.TaskMate.controller.WebSocketController;
 import com.TaskMate.TaskMate.dto.ReminderDTO;
 import com.TaskMate.TaskMate.model.Reminder;
 import com.TaskMate.TaskMate.model.Users;
 import com.TaskMate.TaskMate.repo.ReminderRepository;
 import com.TaskMate.TaskMate.repo.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ReminderService {
@@ -25,6 +32,14 @@ public class ReminderService {
 
     @Autowired
     private  TaskService taskService;
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
+
+    @Autowired
+    private WebSocketController webSocketController;
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
 
     // Create a new reminder
     @Transactional
@@ -93,5 +108,39 @@ public class ReminderService {
     // Delete a reminder by ID
     public void deleteReminder(Long id) {
         reminderRepository.deleteById(id);
+    }
+
+
+    public void scheduleReminders() {
+        // Every minute, check reminders and process them asynchronously
+        List<Reminder> reminders = getAllReminders();
+
+        int delayInSeconds = 0;
+        for (Reminder reminder : reminders) {
+            scheduler.schedule(() -> processReminder(reminder), delayInSeconds, TimeUnit.SECONDS);
+            delayInSeconds += 5; // Increment delay for each subsequent reminder
+        }
+    }
+
+    private void processReminder(Reminder reminder) {
+        System.out.println("Processing reminder in thread: " + Thread.currentThread().getName());
+
+        // Process reminder asynchronously (e.g., sending notifications)
+        System.out.println("Processing reminder for Task: " + reminder.getTask().getTitle() +
+                " | Message: " + reminder.getMessage());
+        sendNotification(reminder);
+    }
+
+    private void sendNotification(Reminder reminder) {
+        // Use WebSocketController to send the notification
+        webSocketController.sendReminder(reminder);
+
+        System.out.println("WebSocket notification sent for Task: " + reminder.getTask().getTitle() +
+                " | Message: " + reminder.getMessage());
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void checkReminders() {
+        scheduleReminders();
     }
 }
