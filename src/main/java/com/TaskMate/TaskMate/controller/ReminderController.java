@@ -14,6 +14,15 @@ public class ReminderController {
     @Autowired
     ReminderService reminderService;
 
+    //http://localhost:8080/reminder
+    //    body
+    //    {
+    //        "reminderTime": "2025-01-20T10:30:00Z",
+    //            "message":  <message>,
+    //            "taskId": <taskId>,
+    //            "userIds": [...<userIds>],
+    //        "createdBy": <id>
+    //    }
     @PostMapping("/reminder")
     public Reminder reminder(@RequestBody ReminderDTO reminder){
         return  reminderService.createReminder(reminder);
@@ -23,7 +32,4 @@ public class ReminderController {
     public List<Reminder> reminder(){
         return  reminderService.getAllReminders();
     }
-
-
-
 }

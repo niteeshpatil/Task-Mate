@@ -4,16 +4,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+
 @Configuration
 public class TaskExecutorConfig {
 
     @Bean
-    public ThreadPoolTaskExecutor taskExecutor() {
+    public ThreadPoolTaskExecutor customTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(3); // Minimum number of threads
-        executor.setMaxPoolSize(4); // Maximum number of threads
-        executor.setQueueCapacity(5); // Queue capacity
-        executor.setThreadNamePrefix("ReminderExecutor-");
+        executor.setCorePoolSize(5); // Set core pool size
+        executor.setMaxPoolSize(10); // Set max pool size
+        executor.setQueueCapacity(25); // Set queue capacity
+        executor.setThreadNamePrefix("ReminderExecutor-"); // Set thread name prefix
         executor.initialize();
         return executor;
     }
