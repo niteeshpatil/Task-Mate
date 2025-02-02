@@ -1,7 +1,6 @@
 package com.TaskMate.TaskMate.repo;
 
 import com.TaskMate.TaskMate.model.Reminder;
-import com.TaskMate.TaskMate.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
