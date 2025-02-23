@@ -85,5 +85,4 @@ public class UsersService {
         return null; // No user authenticated
     }
 
-
 }
