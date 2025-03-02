@@ -8,13 +8,15 @@ public class TaskDTO {
     private String description;
     private Long createdBy;
     private Set<Long> taskAssignees;  // List of User IDs assigned to this task
+    private boolean completed;
 
     // Constructor
-    public TaskDTO(String title, String description, Long createdBy, Set<Long> taskAssignees) {
+    public TaskDTO(String title, String description, Long createdBy, Set<Long> taskAssignees, Boolean completed) {
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
         this.taskAssignees = taskAssignees;
+        this.completed = completed;
     }
 
     // Getters and Setters
@@ -48,5 +50,9 @@ public class TaskDTO {
 
     public void setTaskAssignees(Set<Long> taskAssignees) {
         this.taskAssignees = taskAssignees;
+    }
+
+    public boolean getIsCompleted(){
+        return completed;
     }
 }
