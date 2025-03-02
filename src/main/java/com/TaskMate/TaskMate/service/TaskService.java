@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Sinks;
 
 
 import java.util.HashSet;
@@ -24,6 +26,8 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final UsersRepository userRepository;
+
+    private final Sinks.Many<Task> taskUpdateSink = Sinks.many().multicast().onBackpressureBuffer();
 
     @Autowired
     private UsersRepository usersRepository;
@@ -74,9 +78,12 @@ public class TaskService {
         }
         // Set assignees for the task
         task.setAssignees(assignees);
+        Task savedTask = taskRepository.save(task);
 
-        // Save the task and return it
-        return taskRepository.save(task);
+        // Emit real-time update
+        taskUpdateSink.tryEmitNext(savedTask);
+
+        return savedTask;
     }
 
 
@@ -114,10 +121,13 @@ public class TaskService {
         // Update assignees for the task
         task.setAssignees(updatedAssignees);
 
-        // Save the task and return it
-        return taskRepository.save(task);
-    }
+        Task updatedTask = taskRepository.save(task);
 
+        // Emit real-time update
+        taskUpdateSink.tryEmitNext(updatedTask);
+
+        return updatedTask;
+    }
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -146,5 +156,9 @@ public class TaskService {
         List<Users> assignees = userRepository.findAllById(assigneeIds);
         task.getAssignees().addAll(assignees);
         return taskRepository.save(task);
+    }
+
+    public Flux<Task> getTaskUpdates() {
+        return taskUpdateSink.asFlux();
     }
 }
