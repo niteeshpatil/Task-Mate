@@ -3,9 +3,40 @@
   
 <img width="70%" width="1813" alt="METH" src="https://github.com/user-attachments/assets/6e21ebbd-488d-4524-b84f-1dcaca5a7a47">
 
----
+</div>
+
+--- 
+
+## 🔹 Non-Blocking and Event-Driven
+
+<div align="center">
+  
+<img width="70%" width="1813" alt="BlockDigram-nonBlockingEventDriven" src="https://github.com/user-attachments/assets/dfccaeba-3343-47df-90c8-3b3a8d081dfc">
 
 </div>
+
+### 🔸 Reactive Streams with Flux
+* Uses `Flux<Task>` to stream real-time updates without blocking threads.
+* Multiple subscribers receive updates via Server-Sent Events (SSE).
+
+### 🔸 Event-Driven Architecture
+* Task updates are pushed using `taskUpdateSink.tryEmitNext(updatedTask);`.
+* No need for polling, ensuring efficient real-time data flow.
+
+### 🔸 Thread Management
+* Uses Netty-based Event Loop for handling multiple concurrent connections.
+* Unlike traditional blocking APIs, it avoids creating separate threads per request.
+
+### 🔸 Database Operations
+* Asynchronous `Mono`/`Flux` repository methods ensure non-blocking I/O.
+
+### 🔸 Server-Sent Events (SSE)
+* Configured via `MediaType.TEXT_EVENT_STREAM` for real-time updates.
+* Clients maintain an open connection without constant polling.
+
+### 🔸 Multi-Client Support
+* Multiple subscribers can listen to live task updates simultaneously.
+* Efficiently broadcasts updates without redundant DB queries.
 
 ## 🔹 Non-Blocking and Multi-Threaded Execution  
 - **Threading:** Uses `ThreadPoolTaskExecutor` for parallel execution, ensuring efficient resource utilization.  
