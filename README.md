@@ -1,17 +1,21 @@
-# 🚀 Task-Mate 
+# 🚀 Task-Mate
+Skills: Java, Spring Boot, JPA, Hibernate
+
+ - Implemented **blocking** task and reminder creation, secured using **JWT** authentication and **Spring Security**.
+ - Designed **multi-threaded**, **non-blocking** reminder scheduling and **event-driven** real-time task updates.
 <div align="center">
   
 <img width="70%" width="1813" alt="METH" src="https://github.com/user-attachments/assets/6e21ebbd-488d-4524-b84f-1dcaca5a7a47">
 
 </div>
 
---- 
-
 ## 🔹 Non-Blocking and Event-Driven
 
 <div align="center">
   
 <img width="70%" width="1813" alt="BlockDigram-nonBlockingEventDriven" src="https://github.com/user-attachments/assets/dfccaeba-3343-47df-90c8-3b3a8d081dfc">
+
+<img width="70%" width="1813" alt="non-blocking, event-driven Test" src="https://github.com/user-attachments/assets/c7b17b37-f08e-4eea-aa52-e752a2ca217b">
 
 </div>
 
@@ -39,6 +43,11 @@
 * Efficiently broadcasts updates without redundant DB queries.
 
 ## 🔹 Non-Blocking and Multi-Threaded Execution  
+
+<div align="center">
+<img width="70%" width="1813" alt="Remider" src="https://github.com/user-attachments/assets/3f295546-a163-41b5-bc6d-024678629cfb">
+</div>
+
 - **Threading:** Uses `ThreadPoolTaskExecutor` for parallel execution, ensuring efficient resource utilization.  
 - **Non-Blocking Communication:** WebSocket enables real-time messaging without blocking operations.  
 - **Security:** Implements JWT-based authentication to maintain secure client connections.  
@@ -76,8 +85,6 @@
 - **Periodic Execution:**  
   ```java
   @Scheduled(fixedRate = 60000)
-
----
 
 ## 🔹 Blocking (Single Thread Waits for Completion)
 - **Transactional Consistency:**  
@@ -119,7 +126,6 @@
 - **Secure Hashing:** Uses a high computational cost (strength 12) for robust password protection.  
 - **Consistency:** Applied uniformly across **registration** and **authentication** to maintain secure password handling.  
 
----
 
 ## 🔹 JWT Authentication & Security Filter
 <div align="center">
@@ -145,6 +151,8 @@
   - Creates `UsernamePasswordAuthenticationToken` in `SecurityContext` if the token is valid, enabling Spring Security to handle authorization seamlessly.  
 - **Efficient Execution:**  
   - Implemented as `OncePerRequestFilter` to ensure each request is processed only once, avoiding redundant checks.  
+
+
 
 
 
