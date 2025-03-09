@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -134,24 +135,21 @@ public class ReminderService {
     }
 
     private void processReminder(Reminder reminder) {
-        System.out.println("Processing reminder in thread: " + Thread.currentThread().getName());
-
-        // Process reminder asynchronously (e.g., sending notifications)
-        System.out.println("Processing reminder for Task: " + reminder.getTask().getTitle() +
-                " | Message: " + reminder.getMessage());
-        sendNotification(reminder);
-    }
-
-    private void sendNotification(Reminder reminder) {
-        // Use WebSocketController to send the notification
-        webSocketController.sendReminder(reminder);
-
-        System.out.println("WebSocket notification sent for Task: " + reminder.getTask().getTitle() +
-                " | Message: " + reminder.getMessage());
+        String message = GetNotification(reminder);
+        System.out.println("Thread Used : " + Thread.currentThread().getName()+"\n"+message);
+        webSocketController.sendReminder(message);
     }
 
     @Scheduled(fixedRate = 60000)
     public void checkReminders() {
         scheduleReminders();
+    }
+
+    private String GetNotification(Reminder reminder){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a dd/MM/yyyy");
+        String formattedTime = reminder.getReminderTime().format(formatter);
+        return "Reminder: " + reminder.getMessage() +
+                ", Task: " + reminder.getTask().getTitle() +
+                ", Time: " + formattedTime;
     }
 }

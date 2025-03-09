@@ -13,8 +13,7 @@ public class WebSocketController {
         this.webSocketHandler = webSocketHandler;
     }
 
-    public void sendReminder(Reminder reminder) {
-        String message = "Reminder: " + reminder.getMessage() + " at " + reminder.getReminderTime();
+    public void sendReminder(String message) {
         webSocketHandler.broadcastMessage(message);
     }
 }
